@@ -13,6 +13,14 @@ import {
 } from '@wordpress/blocks';
 import { useSelect } from '@wordpress/data';
 import { last } from 'lodash';
+import { Dropdown, Button } from '@wordpress/components';
+import { chevronDown } from '@wordpress/icons';
+import { useRef } from '@wordpress/element';
+
+/**
+ * Internal dependencies
+ */
+import TemplateDetails from '../../template-details';
 
 function getBlockDisplayText( block ) {
 	return block
@@ -71,11 +79,19 @@ function useSecondaryText() {
 	return {};
 }
 
-export default function DocumentActions( { documentTitle } ) {
+export default function DocumentActions( { template } ) {
+	const documentTitle = template?.slug;
 	const { label, isActive } = useSecondaryText();
+
 	// Title is active when there is no secondary item, or when the secondary
 	// item is inactive.
 	const isTitleActive = ! label?.length || ! isActive;
+
+	// The title ref is passed to the popover as the anchorRef so that the
+	// dropdown is centered over the whole title area rather than just one
+	// part of it.
+	const titleRef = useRef();
+
 	return (
 		<div
 			className={ classnames( 'edit-site-document-actions', {
@@ -85,6 +101,7 @@ export default function DocumentActions( { documentTitle } ) {
 			{ documentTitle ? (
 				<>
 					<div
+						ref={ titleRef }
 						className={ classnames(
 							'edit-site-document-actions__title',
 							{
@@ -94,6 +111,25 @@ export default function DocumentActions( { documentTitle } ) {
 						) }
 					>
 						{ documentTitle }
+						{ ! isActive && (
+							<Dropdown
+								popoverProps={ { anchorRef: titleRef.current } }
+								position="bottom center"
+								renderToggle={ ( { isOpen, onToggle } ) => (
+									<Button
+										className="edit-site-document-actions__get-info"
+										icon={ chevronDown }
+										aria-expanded={ isOpen }
+										aria-haspopup="true"
+										onClick={ onToggle }
+										label={ __( 'Show template details' ) }
+									/>
+								) }
+								renderContent={ () => (
+									<TemplateDetails template={ template } />
+								) }
+							/>
+						) }
 					</div>
 					<div
 						className={ classnames(
