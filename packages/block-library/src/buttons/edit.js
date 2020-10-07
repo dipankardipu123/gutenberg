@@ -3,7 +3,7 @@
  */
 import {
 	__experimentalAlignmentHookSettingsProvider as AlignmentHookSettingsProvider,
-	useInnerBlocksProps,
+	__experimentalUseInnerBlocksProps as useInnerBlocksProps,
 	useBlockProps,
 } from '@wordpress/block-editor';
 

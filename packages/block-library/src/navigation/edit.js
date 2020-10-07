@@ -10,7 +10,7 @@ import classnames from 'classnames';
 import { useState } from '@wordpress/element';
 import {
 	InnerBlocks,
-	useInnerBlocksProps,
+	__experimentalUseInnerBlocksProps as useInnerBlocksProps,
 	InspectorControls,
 	BlockControls,
 	useBlockProps,
