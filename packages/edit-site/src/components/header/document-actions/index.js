@@ -21,6 +21,7 @@ import { useRef } from '@wordpress/element';
  * Internal dependencies
  */
 import TemplateDetails from '../../template-details';
+import { getTemplateInfo } from '../../../utils';
 
 function getBlockDisplayText( block ) {
 	return block
@@ -80,7 +81,7 @@ function useSecondaryText() {
 }
 
 export default function DocumentActions( { template } ) {
-	const documentTitle = template?.slug;
+	const { title: documentTitle } = getTemplateInfo( template );
 	const { label, isActive } = useSecondaryText();
 
 	// Title is active when there is no secondary item, or when the secondary
