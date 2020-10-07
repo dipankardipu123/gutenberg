@@ -8,7 +8,7 @@ import classnames from 'classnames';
  */
 import { useViewportMatch } from '@wordpress/compose';
 import { forwardRef, useRef } from '@wordpress/element';
-import { useSelect } from '@wordpress/data';
+import { useSelect, AsyncModeProvider } from '@wordpress/data';
 import { getBlockType, withBlockContentContext } from '@wordpress/blocks';
 
 /**
@@ -88,10 +88,14 @@ function UncontrolledInnerBlocks( props ) {
 		[ clientId ]
 	);
 
+	// This component needs to always be synchronous as it's the one changing
+	// the async mode depending on the block selection.
 	return (
-		<BlockContextProvider value={ context }>
-			{ blockListItems }
-		</BlockContextProvider>
+		<AsyncModeProvider value={ false }>
+			<BlockContextProvider value={ context }>
+				{ blockListItems }
+			</BlockContextProvider>
+		</AsyncModeProvider>
 	);
 }
 
