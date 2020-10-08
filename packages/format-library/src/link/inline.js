@@ -8,25 +8,27 @@ import { uniqueId } from 'lodash';
  */
 import { useMemo, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
-import { withSpokenMessages, Popover } from '@wordpress/components';
+import { Popover } from '@wordpress/components';
 import { prependHTTP } from '@wordpress/url';
 import { create, insert, isCollapsed, applyFormat } from '@wordpress/rich-text';
 import { __experimentalLinkControl as LinkControl } from '@wordpress/block-editor';
+import { useSpeak } from '@wordpress/compose';
 
 /**
  * Internal dependencies
  */
 import { createLinkFormat, isValidHref } from './utils';
 
-function InlineLinkUI( {
+export default function InlineLinkUI( {
 	isActive,
 	activeAttributes,
 	addingLink,
 	value,
 	onChange,
-	speak,
 	stopAddingLink,
 } ) {
+	const speak = useSpeak();
+
 	/**
 	 * A unique key is generated when switching between editing and not editing
 	 * a link, based on:
@@ -177,5 +179,3 @@ function InlineLinkUI( {
 		</Popover>
 	);
 }
-
-export default withSpokenMessages( InlineLinkUI );

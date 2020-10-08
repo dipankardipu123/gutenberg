@@ -15,9 +15,9 @@ import {
  * WordPress dependencies
  */
 import { __, _x, _n, sprintf } from '@wordpress/i18n';
-import { withSpokenMessages } from '@wordpress/components';
 import { useMemo, useEffect } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
+import { useDebouncedSpeak } from '@wordpress/compose';
 
 /**
  * Internal dependencies
@@ -39,9 +39,9 @@ export function BlockTypesTab( {
 	onInsert,
 	onHover,
 	filterValue,
-	debouncedSpeak,
 	showMostUsedBlocks,
 } ) {
+	const debouncedSpeak = useDebouncedSpeak();
 	const [ items, categories, collections, onSelectItem ] = useBlockTypesState(
 		rootClientId,
 		onInsert
@@ -232,4 +232,4 @@ export function BlockTypesTab( {
 	);
 }
 
-export default withSpokenMessages( BlockTypesTab );
+export default BlockTypesTab;

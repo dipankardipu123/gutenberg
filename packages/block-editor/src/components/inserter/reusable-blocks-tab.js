@@ -1,10 +1,10 @@
 /**
  * WordPress dependencies
  */
-import { withSpokenMessages } from '@wordpress/components';
 import { useMemo, useEffect } from '@wordpress/element';
 import { __, _n, sprintf } from '@wordpress/i18n';
 import { addQueryArgs } from '@wordpress/url';
+import { useDebouncedSpeak } from '@wordpress/compose';
 
 /**
  * Internal dependencies
@@ -16,12 +16,12 @@ import InserterNoResults from './no-results';
 import useBlockTypesState from './hooks/use-block-types-state';
 
 function ReusableBlocksList( {
-	debouncedSpeak,
 	filterValue,
 	onHover,
 	onInsert,
 	rootClientId,
 } ) {
+	const debouncedSpeak = useDebouncedSpeak();
 	const [ items, categories, collections, onSelectItem ] = useBlockTypesState(
 		rootClientId,
 		onInsert
@@ -86,7 +86,6 @@ function ReusableBlocksList( {
  * @param {Function} props.onInsert       Callback to run when item is inserted.
  * @param {Function} props.onHover        Callback to run when item is hovered.
  * @param {?string}  props.filterValue    Search term.
- * @param {Function} props.debouncedSpeak Debounced speak function.
  *
  * @return {WPComponent} The component.
  */
@@ -95,12 +94,10 @@ export function ReusableBlocksTab( {
 	onInsert,
 	onHover,
 	filterValue,
-	debouncedSpeak,
 } ) {
 	return (
 		<>
 			<ReusableBlocksList
-				debouncedSpeak={ debouncedSpeak }
 				filterValue={ filterValue }
 				onHover={ onHover }
 				onInsert={ onInsert }
@@ -120,4 +117,4 @@ export function ReusableBlocksTab( {
 	);
 }
 
-export default withSpokenMessages( ReusableBlocksTab );
+export default ReusableBlocksTab;
