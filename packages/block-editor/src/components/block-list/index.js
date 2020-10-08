@@ -26,6 +26,7 @@ const BLOCK_ANIMATION_THRESHOLD = 200;
 function BlockList(
 	{
 		className,
+		placeholder,
 		rootClientId,
 		renderAppender,
 		__experimentalTagName = 'div',
@@ -122,6 +123,7 @@ function BlockList(
 					</AsyncModeProvider>
 				);
 			} ) }
+			{ blockClientIds.length < 1 && placeholder }
 			<BlockListAppender
 				tagName={ __experimentalAppenderTagName }
 				rootClientId={ rootClientId }
