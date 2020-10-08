@@ -65,15 +65,6 @@ function UncontrolledInnerBlocks( props ) {
 		templateInsertUpdatesSelection
 	);
 
-	const blockListItems = (
-		<BlockListItems
-			rootClientId={ clientId }
-			renderAppender={ renderAppender }
-			__experimentalAppenderTagName={ __experimentalAppenderTagName }
-			wrapperRef={ wrapperRef }
-		/>
-	);
-
 	const context = useSelect(
 		( select ) => {
 			const block = select( 'core/block-editor' ).getBlock( clientId );
@@ -91,11 +82,18 @@ function UncontrolledInnerBlocks( props ) {
 	// This component needs to always be synchronous as it's the one changing
 	// the async mode depending on the block selection.
 	return (
-		<AsyncModeProvider value={ false }>
-			<BlockContextProvider value={ context }>
-				{ blockListItems }
-			</BlockContextProvider>
-		</AsyncModeProvider>
+		<BlockContextProvider value={ context }>
+			<AsyncModeProvider value={ false }>
+				<BlockListItems
+					rootClientId={ clientId }
+					renderAppender={ renderAppender }
+					__experimentalAppenderTagName={
+						__experimentalAppenderTagName
+					}
+					wrapperRef={ wrapperRef }
+				/>
+			</AsyncModeProvider>
+		</BlockContextProvider>
 	);
 }
 

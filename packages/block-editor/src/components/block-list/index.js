@@ -28,6 +28,8 @@ function BlockList( { className, rootClientId, renderAppender }, ref ) {
 	const fallbackRef = useRef();
 	const wrapperRef = ref || fallbackRef;
 
+	// This component needs to always be synchronous as it's the one changing
+	// the async mode depending on the block selection.
 	return (
 		<Container
 			ref={ wrapperRef }
@@ -36,11 +38,13 @@ function BlockList( { className, rootClientId, renderAppender }, ref ) {
 				className
 			) }
 		>
-			<BlockListItems
-				rootClientId={ rootClientId }
-				renderAppender={ renderAppender }
-				wrapperRef={ wrapperRef }
-			/>
+			<AsyncModeProvider value={ false }>
+				<BlockListItems
+					rootClientId={ rootClientId }
+					renderAppender={ renderAppender }
+					wrapperRef={ wrapperRef }
+				/>
+			</AsyncModeProvider>
 		</Container>
 	);
 }
@@ -141,15 +145,4 @@ export function BlockListItems( {
 	);
 }
 
-const ForwardedBlockList = forwardRef( BlockList );
-
-// This component needs to always be synchronous
-// as it's the one changing the async mode
-// depending on the block selection.
-export default forwardRef( ( props, ref ) => {
-	return (
-		<AsyncModeProvider value={ false }>
-			<ForwardedBlockList ref={ ref } { ...props } />
-		</AsyncModeProvider>
-	);
-} );
+export default forwardRef( BlockList );
