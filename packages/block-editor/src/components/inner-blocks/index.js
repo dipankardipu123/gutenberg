@@ -46,6 +46,7 @@ function UncontrolledInnerBlocks( props ) {
 		templateInsertUpdatesSelection,
 		__experimentalCaptureToolbars: captureToolbars,
 		orientation,
+		placeholder,
 	} = props;
 
 	const isSmallScreen = useViewportMatch( 'medium', '<' );
@@ -110,6 +111,7 @@ function UncontrolledInnerBlocks( props ) {
 				ref={ forwardedRef }
 				rootClientId={ clientId }
 				className={ classes }
+				placeholder={ placeholder }
 			/>
 		</BlockContextProvider>
 	);
